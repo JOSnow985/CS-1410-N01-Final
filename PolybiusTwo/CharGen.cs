@@ -9,9 +9,7 @@ public static class CharGen
         string name = CollectName();
         string description = CollectDescription();
         CharClass charClass = ChooseClass();
-        // collect attribute roll style
-        // roll attributes
-        // return newly created character
+        List<(Attribute, int)> charAttributes = SetAttributes();
         return null;
     }
 
@@ -87,11 +85,11 @@ public static class CharGen
     }
 
     // Roller delegate, Roll attributes using 4d6 drop lowest, I like this way...
-    public static List<int> AttRoller_FourDropLow()
+    public static List<int> FourDropLow()
     {
         Random rng = new();
-        List<int> results = [0, 0, 0, 0, 0, 0];
-        for (int i = 0; i < results.Count; i++)
+        List<int> results = [];
+        for (int i = 0; i <= 6; i++)
         {
             // Roll 4d6
             List<int> rolls = [rng.Next(1,7), rng.Next(1,7), rng.Next(1,7), rng.Next(1,7)];
@@ -110,8 +108,8 @@ public static class CharGen
     public static List<int> ThreeInOrder()
     {
         Random rng = new();
-        List<int> results = [0, 0, 0, 0, 0, 0];
-        for (int i = 0; i < results.Count; i++)
+        List<int> results = [];
+        for (int i = 0; i < 6; i++)
         {
             // Roll 3d6
             List<int> rolls = [rng.Next(1,7), rng.Next(1,7), rng.Next(1,7)];
@@ -124,11 +122,53 @@ public static class CharGen
     public static List<(Attribute, int)> SetAttributes()
     {
         CurrentStep = "Attributes";
-        // present user a list of attribute roll styles to choose from
-        // roll attributes
-        // show user the generated numbers and let them reroll
-        // return list of attributes
-        return [];
+        List<(Attribute, int)>? rolls = null;
+
+        while (rolls is null)
+        {
+            CharGenHeader();
+            Console.WriteLine("Which style of attribute rolling do you want to use?\n(They're all \"in order\", I'm sorry)\n");
+
+            // Print list of roller delegates
+            Console.WriteLine("1 - Roll 4d6, Drop Low\n2 - Roll 3d6");
+            List<Func<List<int>>> rollers = [FourDropLow, ThreeInOrder];
+
+            // Allow the user to select from the roller delegates we have, then use that delegate to roll the attributes
+            int selectedIndex = HandleCharGenIndexChoice(rollers.Count);
+            // Loop here to allow rerolling fast
+            while (selectedIndex != -1 && rolls is null)
+            {
+                List<int> results = RollAttributes(rollers[selectedIndex]);
+
+                // Combine the results with our attribute list
+                List<(Attribute, int)> pairs = [];
+                for (int i = 0; i < GameCore.CoreAttributes.Count; i++)
+                {
+                    pairs.Add((GameCore.CoreAttributes[i], results[i]));
+                }
+
+                // We've now rolled a list of pairs, ask if they want to lock it in or go back
+                CharGenHeader();
+                foreach((Attribute a, int v) pair in pairs)
+                {
+                    Console.WriteLine($"{pair.a.Name} - {pair.v}");
+                }
+
+                // Only lock their selection in if they press Y here, N will return to selecting a roller, R will use the selected roller again
+                Console.WriteLine($"\nAccept these numbers?");
+                Console.WriteLine($"Y - Yes    N - Back to Rollers    R - Reroll");
+                ConsoleKey keyInput = ConsoleKey.None;
+                while (keyInput != ConsoleKey.Y && keyInput != ConsoleKey.N && keyInput != ConsoleKey.R)
+                {
+                    keyInput = Console.ReadKey(true).Key;
+                }
+                if (keyInput == ConsoleKey.Y)
+                    rolls = pairs;
+                else if (keyInput == ConsoleKey.N)
+                    selectedIndex = -1;     // Set index to -1 to signal that we need to select a roller again
+            }
+        }
+        return rolls;
     }
 
     // Input collector that lets the user select from a list of options, only returns when we have a valid choice
