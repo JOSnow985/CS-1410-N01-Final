@@ -77,4 +77,9 @@ public static class Menu
         Console.Clear();
         printHeader();
     }
+    public static void MainMenuHeader()
+    {
+        Console.WriteLine("Welcome to Jaden's RPG Character Sheet Manager!\n");
+        Console.WriteLine("[1] Create a Character\n[2] Character List\n[3] Class List\n[4] Attribute List\n[5] Exit");
+    }
 }
