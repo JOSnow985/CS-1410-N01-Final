@@ -58,21 +58,7 @@ public static class CharGen
             }
 
             // Allow the player to select a class from the class list to inspect
-            ConsoleKey keyInput;
-            int? selectedOption = null;
-            do
-            {
-                keyInput = Console.ReadKey(true).Key;
-
-                if (IsNumericKey(keyInput))
-                {
-                    selectedOption = ConvertKeyToNumber(keyInput);
-                }
-            // We continue the loop while any of these conditions is satisfied.
-            } while (selectedOption is null || selectedOption < 1 || selectedOption > GameCore.CoreClasses.Count);
-
-            // Correct the index so it's 0 indexed again and not an int? either
-            int selectedIndex = selectedOption.Value - 1;
+            int selectedIndex = HandleCharGenIndexChoice(GameCore.CoreClasses.Count);
             CharClass selectedClass = GameCore.CoreClasses[selectedIndex];
 
             // Now that we have a class to inspect, show the player and ask if they want to lock it in or go back
@@ -81,7 +67,7 @@ public static class CharGen
             Console.WriteLine($"\nDo you want to be a {GameCore.CoreClasses[selectedIndex].Name}? Y / N");
             
             // Only lock their selection in if they press Y here. 
-            keyInput = ConsoleKey.None;
+            ConsoleKey keyInput = ConsoleKey.None;
             while (keyInput != ConsoleKey.Y && keyInput != ConsoleKey.N)
             {
                 keyInput = Console.ReadKey(true).Key;
@@ -92,26 +78,6 @@ public static class CharGen
 
         // If we exit the above loop, we've either broken something or we have our class pick, return!
         return selection;
-    }
-
-    // Checks the passed ConsoleKey to see if it's a number key we can convert to an int
-    private static bool IsNumericKey(ConsoleKey key)
-    {
-        return  key >= ConsoleKey.D0 && key <= ConsoleKey.D9 ||
-                key >= ConsoleKey.NumPad0 && key <= ConsoleKey.NumPad9;
-    }
-
-    // Takes a ConsoleKey and returns an int from it, this can be a switch expression but it's honestly easier to understand this way
-    private static int? ConvertKeyToNumber(ConsoleKey key)
-    {
-        if (key >= ConsoleKey.D0 && key <= ConsoleKey.D9)
-            return key - ConsoleKey.D0;
-
-        // Converts number pad too! (even though I don't have one)
-        if (key >= ConsoleKey.NumPad0 && key <= ConsoleKey.NumPad9)
-            return key - ConsoleKey.NumPad0;
-
-        return null;
     }
 
     // Method that accepts a delegate and returns a list of numbers for our attributes
@@ -164,6 +130,50 @@ public static class CharGen
         // return list of attributes
         return [];
     }
+
+    // Input collector that lets the user select from a list of options, only returns when we have a valid choice
+    private static int HandleCharGenIndexChoice(int listCount)
+    {
+        // Allow the player to select an option from a 1 indexed list
+        ConsoleKey keyInput;
+        int? selectedOption = null;
+        do
+        {
+            keyInput = Console.ReadKey(true).Key;
+
+            if (IsNumericKey(keyInput))
+            {
+                selectedOption = ConvertKeyToNumber(keyInput);
+            }
+        // We continue the loop while any of these conditions is satisfied.
+        } while (selectedOption is null || selectedOption < 1 || selectedOption > listCount);
+
+        // Correct the index so it's 0 indexed again and not an int? either
+        int selectedIndex = selectedOption.Value - 1;
+
+        return selectedIndex;
+    }
+
+    // Checks the passed ConsoleKey to see if it's a number key we can convert to an int
+    private static bool IsNumericKey(ConsoleKey key)
+    {
+        return  key >= ConsoleKey.D0 && key <= ConsoleKey.D9 ||
+                key >= ConsoleKey.NumPad0 && key <= ConsoleKey.NumPad9;
+    }
+
+    // Takes a ConsoleKey and returns an int from it, this can be a switch expression but it's honestly easier to understand this way
+    private static int? ConvertKeyToNumber(ConsoleKey key)
+    {
+        if (key >= ConsoleKey.D0 && key <= ConsoleKey.D9)
+            return key - ConsoleKey.D0;
+
+        // Converts number pad too! (even though I don't have one)
+        if (key >= ConsoleKey.NumPad0 && key <= ConsoleKey.NumPad9)
+            return key - ConsoleKey.NumPad0;
+
+        return null;
+    }
+
     // Handler for collecting strings from the user, makes sure we don't get one that's Null or Empty.
     public static string HandleCharGenInput(string prompt)
     {
