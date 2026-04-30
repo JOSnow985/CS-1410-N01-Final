@@ -8,7 +8,6 @@ public static class CharGen
     {
         string name = CollectName();
         string description = CollectDescription();
-        // collect description
         // collect class choice
         // collect attribute roll style
         // roll attributes
