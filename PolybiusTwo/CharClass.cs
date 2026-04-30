@@ -1,6 +1,6 @@
 ﻿namespace PolybiusTwo;
 
-public class Class  // May be a bad idea to name this "Class"
+public class CharClass  // May be a bad idea to name this "Class"
 {
     // --- Fields ---
     private string _name;
@@ -12,7 +12,7 @@ public class Class  // May be a bad idea to name this "Class"
     public string ClassName { get => _name; set => _name = value; }
 
     // --- Constructor ---
-    public Class(string name, string description)
+    public CharClass(string name, string description)
     {
         _name = name;
         _description = description;
