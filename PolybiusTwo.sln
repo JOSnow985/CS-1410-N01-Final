@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolybiusTwo", "PolybiusTwo\PolybiusTwo.csproj", "{4340F57B-0D67-4D11-BA85-CC8A2058DEFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolybiusTwo.Tests", "PolybiusTwo.Tests\PolybiusTwo.Tests.csproj", "{AA8782D3-4A11-4F2E-9937-9D1F93EFB869}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolybiusTwo.Main", "PolybiusTwo.Main\PolybiusTwo.Main.csproj", "{7D8516DF-34CA-46F1-8B88-2C685528A94D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4340F57B-0D67-4D11-BA85-CC8A2058DEFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4340F57B-0D67-4D11-BA85-CC8A2058DEFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4340F57B-0D67-4D11-BA85-CC8A2058DEFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4340F57B-0D67-4D11-BA85-CC8A2058DEFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA8782D3-4A11-4F2E-9937-9D1F93EFB869}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA8782D3-4A11-4F2E-9937-9D1F93EFB869}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA8782D3-4A11-4F2E-9937-9D1F93EFB869}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA8782D3-4A11-4F2E-9937-9D1F93EFB869}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D8516DF-34CA-46F1-8B88-2C685528A94D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D8516DF-34CA-46F1-8B88-2C685528A94D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D8516DF-34CA-46F1-8B88-2C685528A94D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D8516DF-34CA-46F1-8B88-2C685528A94D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
