@@ -7,6 +7,7 @@ public static class CharGen
     public static Character CreateNewCharacter()
     {
         string name = CollectName();
+        string description = CollectDescription();
         // collect description
         // collect class choice
         // collect attribute roll style
@@ -14,22 +15,33 @@ public static class CharGen
         // return newly created character
         return null;
     }
-    
+
     // Simple method to update the CharGen step and collect the character name
     public static string CollectName()
     {
         CurrentStep = "Character Name";
         return HandleCharGenInput("What should your character's name be?");
     }
+
+    // Asks the user if they want to enter a description or not. Collects a description to return or returns a default one.
     public static string CollectDescription()
     {
         CurrentStep = "Character Description";
-        // ask user if they want to enter a description
-        // if yes, collect description
-        // verify collected description
-        // if no, use base description
-        // return description
-        return null;
+        CharGenHeader();
+
+        // Prompt user if they want to enter a description, loop until they press Y or N
+        Console.WriteLine("Do you want to enter a description for your character or use a default one?\nY - Yes\nN - No");
+        ConsoleKey keyInput = ConsoleKey.None;
+        while (keyInput != ConsoleKey.Y && keyInput != ConsoleKey.N)
+        {
+            keyInput = Console.ReadKey(true).Key;
+        }
+
+        // After they've pressed Y or N, we either collect a description or use the default
+        if (keyInput == ConsoleKey.Y)
+            return HandleCharGenInput("Please enter your character's description!");
+        else
+            return "Yet another hero in the fight against communism.";
     }
     public static CharClass ChooseClass()
     {
