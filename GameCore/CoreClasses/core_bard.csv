@@ -1,0 +1,5 @@
+Name,Bard
+Description,A performance inclined jack-of-all trades on and off the battlefield.
+Skills,Acrobatics,Animal Handling,Arcana,Athletics,Deception,History,Insight,Intimidation,Investigation,Medicine,Nature,Perception,Performance,Persuasion,Religion,Sleight of Hand,Stealth,Survival
+Ability,Bardic Inspiration,Expertise,Spellcasting,Knock
+HitDie,d8

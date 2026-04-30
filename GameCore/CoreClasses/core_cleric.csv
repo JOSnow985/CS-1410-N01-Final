@@ -1,0 +1,5 @@
+Name,Cleric
+Description,Faithful support mages that are educated and pious.
+Skills,History,Insight,Medicine,Persuasion,Religion
+Ability,Turn Undead,Spellcasting,Blessed Strikes
+HitDie,d8

@@ -1,6 +1,6 @@
 ﻿namespace PolybiusTwo;
 
-public class CharClass  // May be a bad idea to name this "Class"
+public class CharClass
 {
     // --- Fields ---
     private string _name;

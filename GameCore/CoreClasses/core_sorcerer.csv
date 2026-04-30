@@ -1,0 +1,5 @@
+Name,Sorcerer
+Description,Mages prodigious and capable through inborn power.
+Skills,Arcana,Deception,Insight,Intimidation,Persuasion,Religion
+Ability,Spellcasting,Sorcery,Sorcerous Restoration
+HitDie,d6

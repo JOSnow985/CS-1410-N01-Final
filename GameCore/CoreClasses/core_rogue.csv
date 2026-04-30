@@ -1,0 +1,5 @@
+Name,Rogue
+Description,Tactical combatants and crafty characters both on and off the battlefield.
+Skills,Acrobatics,Athletics,Deception,Insight,Intimidation,Investigation,Perception,Performance,Persuasion,Sleight of Hand,Stealth
+Ability,Cunning Action,Sneak Attack,Evasion
+HitDie,d8

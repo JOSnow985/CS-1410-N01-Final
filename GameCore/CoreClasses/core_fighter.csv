@@ -1,5 +1,5 @@
 Name,Fighter
-Description,Someone who fights
-Skills,Athletics,Weight Lifting
-Ability,Action Surge
-HitDie,1d10
+Description,Trained combatants familiar with an arsenal of arms and armor.
+Skills,Acrobatics,Animal Handling,Athletics,History,Insight,Intimidation,Perception,Survival
+Ability,Action Surge,Second Wind
+HitDie,d10
