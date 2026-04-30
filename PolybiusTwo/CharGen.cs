@@ -14,6 +14,8 @@ public static class CharGen
         // return newly created character
         return null;
     }
+    
+    // Simple method to update the CharGen step and collect the character name
     public static string CollectName()
     {
         CurrentStep = "Character Name";
