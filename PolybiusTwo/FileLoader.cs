@@ -49,7 +49,7 @@ public static class FileLoader
                         where x[0] == "Description" && x.Length > 1
                         select x;
             var hitD =  from x in lineList
-                        where x[0] == "Description" && x.Length > 1
+                        where x[0] == "HitDie"      && x.Length > 1
                         select x;
             
             // Grab the first entry from the enumerables and use the second string in the array, the value
