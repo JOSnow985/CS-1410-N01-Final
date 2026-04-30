@@ -2,7 +2,7 @@
 
 public static class CharGen
 {
-    public static string CurrentStep = "";
+    private static string CurrentStep = "";
     // Methods
     public static Character CreateNewCharacter()
     {
@@ -147,6 +147,6 @@ public static class CharGen
     public static void CharGenHeader()
     {
         Console.Clear();
-        Console.WriteLine($"Creating a new character, currently choosing: {CurrentStep}\n");
+        Console.WriteLine($"--- Character Creation ---\nCurrently Choosing: {CurrentStep}\n");
     }
 }
