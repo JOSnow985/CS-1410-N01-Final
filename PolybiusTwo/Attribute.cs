@@ -2,13 +2,15 @@
 
 public record Attribute
 {
-    // --- Fields ---
-    private string _name;
-    private string _description;
-
     // -- Properties --
+    public string Name { get; set; }
+    public string Description { get; set; }
+    // public int Score { get; set; }
 
     // --- Constructor ---
-
-    // --- Methods ---
+    public Attribute(string name, string description)
+    {
+        Name = name;
+        Description = description;
+    }
 }
