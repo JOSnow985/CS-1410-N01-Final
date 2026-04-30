@@ -5,6 +5,7 @@ public class Character
     // --- Fields ---
     private string _name;
     private string _description;
+    private CharClass _charClass;
     // private int _maxHealth => _attributes.Constitution;
     private int _maxStamina;
     private int _level;
@@ -13,6 +14,7 @@ public class Character
     // --- Properties ---
     public string Name { get => _name; private set => _name = value; }
     public string Description { get => _description; set => _description = value; }
+    public CharClass CharClass { get => _charClass; set => _charClass = value; }
     public List<(Attribute attribute, int value)> Attributes { get => _attributes; set => _attributes = value; }
     // public int MaxHealth { get => _maxHealth; set => _maxHealth = value; }
     public int MaxStamina { get => _maxStamina; set => _maxStamina = value; }
