@@ -113,7 +113,49 @@ public static class CharGen
 
         return null;
     }
-    public static List<(Attribute, int)> RollAttributes()
+
+    // Method that accepts a delegate and returns a list of numbers for our attributes
+    public static List<int> RollAttributes(Func<List<int>> roller)
+    {
+        return roller();
+    }
+
+    // Roller delegate, Roll attributes using 4d6 drop lowest, I like this way...
+    public static List<int> AttRoller_FourDropLow()
+    {
+        Random rng = new();
+        List<int> results = [0, 0, 0, 0, 0, 0];
+        for (int i = 0; i < results.Count; i++)
+        {
+            // Roll 4d6
+            List<int> rolls = [rng.Next(1,7), rng.Next(1,7), rng.Next(1,7), rng.Next(1,7)];
+
+            // Sort the list and remove the lowest roll
+            rolls.Sort();
+            rolls.RemoveAt(0);
+
+            // Save the sum of the remaining three dice to the results
+            results.Add(rolls.Sum());
+        }
+        return results;
+    }
+
+    // Roller delegate, Roll attributes using 3d6
+    public static List<int> ThreeInOrder()
+    {
+        Random rng = new();
+        List<int> results = [0, 0, 0, 0, 0, 0];
+        for (int i = 0; i < results.Count; i++)
+        {
+            // Roll 3d6
+            List<int> rolls = [rng.Next(1,7), rng.Next(1,7), rng.Next(1,7)];
+
+            // Save the sum of the dice to the results
+            results.Add(rolls.Sum());
+        }
+        return results;
+    }
+    public static List<(Attribute, int)> SetAttributes()
     {
         CurrentStep = "Attributes";
         // present user a list of attribute roll styles to choose from
