@@ -13,7 +13,28 @@ public static class CharGen
         string description = CollectDescription();
         CharClass charClass = ChooseClass();
         List<(Attribute, int)> charAttributes = SetAttributes();
-        return new(name, description, charClass, charAttributes);
+        Character charGenned = new(name, description, charClass, charAttributes);
+
+        // Make a save file for the newly generated character before returning it
+        SaveCharacter(charGenned);
+        return charGenned;
+    }
+
+    private static void SaveCharacter(Character character)
+    {
+        List<string> lines = [];
+        lines.Add(string.Join(',', ["Name", character.Name]));
+        lines.Add(string.Join(',', ["Description", character.Description]));
+        lines.Add(string.Join(',', ["CharClass", character.CharClass.Name]));
+        foreach((Attribute a, int v) in character.Attributes)
+        {
+            lines.Add(string.Join(',', [a.Name, v]));
+        }
+        // Creates a filepath by combining current directory and a "characterfiles" directory
+        string savepath = Path.Combine(Directory.GetCurrentDirectory(),"CharacterFiles");
+        // Must create this directory if it doesn't exist
+        Directory.CreateDirectory(savepath);
+        File.WriteAllLines(Path.Combine(savepath,$"{character.Name}.csv"), lines.ToArray());
     }
 
     // Simple method to update the CharGen step and collect the character name
