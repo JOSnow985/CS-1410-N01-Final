@@ -17,7 +17,7 @@ public class CharClass  // May be a bad idea to name this "Class"
     public CharClass(string name, string description, string healthDie)
     {
         _name = name;
-        Description = description;
+        _description = description;
         HealthDie = healthDie;
     }
 
