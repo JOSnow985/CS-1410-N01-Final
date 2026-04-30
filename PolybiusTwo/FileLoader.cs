@@ -19,6 +19,46 @@ public static class FileLoader
         return list;
     }
 
+    // Loads all the core class files present in the core class folder
+    public static List<CharClass> LoadCoreClasses()
+    {
+        List<CharClass> classList = [];
+
+        // Build the path to the class folder
+        string currentDir = Directory.GetCurrentDirectory();
+        string coreClassFolder = "GameCore/CoreClasses";
+
+        // Get an array of the files in the class folder
+        string[] files = Directory.GetFiles(Path.Combine(currentDir, coreClassFolder));
+
+        // Create a class from every class file in the directory
+        foreach(string file in files)
+        {
+            string[] lines = LoadFile(file);
+
+            List<string[]> lineList = [];
+
+            foreach(string line in lines)
+                lineList.Add(line.Split(','));
+            
+            // Using query expressions to parse the lines from the file based on the first string, the identifier
+            var name =  from x in lineList
+                        where x[0] == "Name"        && x.Length > 1     // Make sure we're getting lines that aren't just an identifier
+                        select x;
+            var desc =  from x in lineList
+                        where x[0] == "Description" && x.Length > 1
+                        select x;
+            var hitD =  from x in lineList
+                        where x[0] == "Description" && x.Length > 1
+                        select x;
+            
+            // Grab the first entry from the enumerables and use the second string in the array, the value
+            classList.Add(new(name.First()[1], desc.First()[1], hitD.First()[1]));
+        }
+
+        return classList;
+    }
+
     // Loads the indicated file, returns an empty array if the file's missing
     public static string[] LoadFile(string filepath)
     {
