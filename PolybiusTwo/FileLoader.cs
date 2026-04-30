@@ -7,7 +7,7 @@ public static class FileLoader
     public static List<Attribute> LoadCoreAttributes()
     {
         List<Attribute> list = [];
-        string[] lines = LoadFile("core_attributes.csv");
+        string[] lines = LoadFile("GameCore/core_attributes.csv");
 
         // Split each line by ',', add the two parts to the list as a new Attribute object
         foreach(string line in lines)
