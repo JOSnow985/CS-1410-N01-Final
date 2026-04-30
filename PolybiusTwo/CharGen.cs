@@ -6,7 +6,7 @@ public static class CharGen
     // Methods
     public static Character CreateNewCharacter()
     {
-        // collect name
+        string name = CollectName();
         // collect description
         // collect class choice
         // collect attribute roll style
@@ -17,10 +17,7 @@ public static class CharGen
     public static string CollectName()
     {
         CurrentStep = "Character Name";
-        // ask user for character name
-        // verify name isn't null
-        // return name
-        return null;
+        return HandleCharGenInput("What should your character's name be?");
     }
     public static string CollectDescription()
     {
