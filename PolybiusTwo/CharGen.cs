@@ -89,11 +89,11 @@ public static class CharGen
     private static List<int> RollAttributes(Func<List<int>> roller) => roller();
 
     // Roller delegate, Roll attributes using 4d6 drop lowest, I like this way...
-    private static List<int> FourDropLow()
+    public static List<int> FourDropLow()
     {
         Random rng = new();
         List<int> results = [];
-        for (int i = 0; i <= 6; i++)
+        for (int i = 0; i < 6; i++)
         {
             // Roll 4d6
             List<int> rolls = [rng.Next(1,7), rng.Next(1,7), rng.Next(1,7), rng.Next(1,7)];
@@ -109,7 +109,7 @@ public static class CharGen
     }
 
     // Roller delegate, Roll attributes using 3d6
-    private static List<int> ThreeInOrder()
+    public static List<int> ThreeInOrder()
     {
         Random rng = new();
         List<int> results = [];
