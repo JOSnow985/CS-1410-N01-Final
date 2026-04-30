@@ -3,25 +3,28 @@
 public static class CharGen
 {
     private static string CurrentStep = "";
-    // Methods
+
+    // --- Methods ---
+    // Essentially a publicly accessible wrapper for the other methods 
+    // that make up the character generation process
     public static Character CreateNewCharacter()
     {
         string name = CollectName();
         string description = CollectDescription();
         CharClass charClass = ChooseClass();
         List<(Attribute, int)> charAttributes = SetAttributes();
-        return null;
+        return new(name, description, charClass, charAttributes);
     }
 
     // Simple method to update the CharGen step and collect the character name
-    public static string CollectName()
+    private static string CollectName()
     {
         CurrentStep = "Character Name";
         return HandleCharGenInput("What should your character's name be?");
     }
 
     // Asks the user if they want to enter a description or not. Collects a description to return or returns a default one.
-    public static string CollectDescription()
+    private static string CollectDescription()
     {
         CurrentStep = "Character Description";
         CharGenHeader();
@@ -40,7 +43,7 @@ public static class CharGen
         else
             return "Yet another hero in the fight against communism.";
     }
-    public static CharClass ChooseClass()
+    private static CharClass ChooseClass()
     {
         CurrentStep = "Character Class";
         CharClass? selection = null;
@@ -79,13 +82,10 @@ public static class CharGen
     }
 
     // Method that accepts a delegate and returns a list of numbers for our attributes
-    public static List<int> RollAttributes(Func<List<int>> roller)
-    {
-        return roller();
-    }
+    private static List<int> RollAttributes(Func<List<int>> roller) => roller();
 
     // Roller delegate, Roll attributes using 4d6 drop lowest, I like this way...
-    public static List<int> FourDropLow()
+    private static List<int> FourDropLow()
     {
         Random rng = new();
         List<int> results = [];
@@ -105,7 +105,7 @@ public static class CharGen
     }
 
     // Roller delegate, Roll attributes using 3d6
-    public static List<int> ThreeInOrder()
+    private static List<int> ThreeInOrder()
     {
         Random rng = new();
         List<int> results = [];
@@ -119,7 +119,7 @@ public static class CharGen
         }
         return results;
     }
-    public static List<(Attribute, int)> SetAttributes()
+    private static List<(Attribute, int)> SetAttributes()
     {
         CurrentStep = "Attributes";
         List<(Attribute, int)>? rolls = null;
@@ -215,7 +215,7 @@ public static class CharGen
     }
 
     // Handler for collecting strings from the user, makes sure we don't get one that's Null or Empty.
-    public static string HandleCharGenInput(string prompt)
+    private static string HandleCharGenInput(string prompt)
     {
         bool isSecondTry = false;
 
@@ -236,7 +236,7 @@ public static class CharGen
                 return userInput;
         }
     }
-    public static void CharGenHeader()
+    private static void CharGenHeader()
     {
         Console.Clear();
         Console.WriteLine($"--- Character Creation ---\nCurrently Choosing: {CurrentStep}\n");
