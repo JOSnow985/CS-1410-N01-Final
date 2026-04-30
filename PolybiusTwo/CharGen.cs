@@ -16,39 +16,22 @@ public static class CharGen
         Character charGenned = new(name, description, charClass, charAttributes);
 
         // Make a save file for the newly generated character before returning it
-        SaveCharacter(charGenned);
+        charGenned.SaveToFile();
         return charGenned;
-    }
-
-    private static void SaveCharacter(Character character)
-    {
-        List<string> lines = [];
-        lines.Add(string.Join(',', ["Name", character.Name]));
-        lines.Add(string.Join(',', ["Description", character.Description]));
-        lines.Add(string.Join(',', ["CharClass", character.CharClass.Name]));
-        foreach((Attribute a, int v) in character.Attributes)
-        {
-            lines.Add(string.Join(',', [a.Name, v]));
-        }
-        // Creates a filepath by combining current directory and a "characterfiles" directory
-        string savepath = Path.Combine(Directory.GetCurrentDirectory(),"CharacterFiles");
-        // Must create this directory if it doesn't exist
-        Directory.CreateDirectory(savepath);
-        File.WriteAllLines(Path.Combine(savepath,$"{character.Name}.csv"), lines.ToArray());
     }
 
     // Simple method to update the CharGen step and collect the character name
     private static string CollectName()
     {
         CurrentStep = "Character Name";
-        return HandleCharGenInput("What should your character's name be?");
+        return Menu.HandleStringInput("What should your character's name be?", CharGenHeader);
     }
 
     // Asks the user if they want to enter a description or not. Collects a description to return or returns a default one.
     private static string CollectDescription()
     {
         CurrentStep = "Character Description";
-        CharGenHeader();
+        Menu.ScreenHeader(CharGenHeader);
 
         // Prompt user if they want to enter a description, loop until they press Y or N
         Console.WriteLine("Do you want to enter a description for your character or use a default one?\nY - Yes\nN - No");
@@ -60,7 +43,7 @@ public static class CharGen
 
         // After they've pressed Y or N, we either collect a description or use the default
         if (keyInput == ConsoleKey.Y)
-            return HandleCharGenInput("Please enter your character's description!");
+            return Menu.HandleStringInput("Please enter your character's description!", CharGenHeader);
         else
             return "Yet another hero in the fight against communism.";
     }
@@ -70,7 +53,7 @@ public static class CharGen
         CharClass? selection = null;
         while (selection is null)
         {
-            CharGenHeader();
+            Menu.ScreenHeader(CharGenHeader);
             Console.WriteLine("Press a number to see more info on a class, and choose!\n");
 
             // Print list of class options to choose from, start index at 1 for convenience
@@ -80,11 +63,11 @@ public static class CharGen
             }
 
             // Allow the player to select a class from the class list to inspect
-            int selectedIndex = HandleCharGenIndexChoice(GameCore.CoreClasses.Count);
+            int selectedIndex = Menu.HandleIndexChoice(GameCore.CoreClasses.Count);
             CharClass selectedClass = GameCore.CoreClasses[selectedIndex];
 
             // Now that we have a class to inspect, show the player and ask if they want to lock it in or go back
-            CharGenHeader();
+            Menu.ScreenHeader(CharGenHeader);
             Console.WriteLine($"Character Class: {selectedClass.Name}\nDescription: {selectedClass.Description}\nHit Die: {selectedClass.HealthDie}");
             Console.WriteLine($"\nDo you want to be a {GameCore.CoreClasses[selectedIndex].Name}? Y / N");
             
@@ -147,7 +130,7 @@ public static class CharGen
 
         while (rolls is null)
         {
-            CharGenHeader();
+            Menu.ScreenHeader(CharGenHeader);
             Console.WriteLine("Which style of attribute rolling do you want to use?\n(They're all \"in order\", I'm sorry)\n");
 
             // Print list of roller delegates
@@ -155,7 +138,7 @@ public static class CharGen
             List<Func<List<int>>> rollers = [FourDropLow, ThreeInOrder];
 
             // Allow the user to select from the roller delegates we have, then use that delegate to roll the attributes
-            int selectedIndex = HandleCharGenIndexChoice(rollers.Count);
+            int selectedIndex = Menu.HandleIndexChoice(rollers.Count);
             // Loop here to allow rerolling fast
             while (selectedIndex != -1 && rolls is null)
             {
@@ -169,7 +152,7 @@ public static class CharGen
                 }
 
                 // We've now rolled a list of pairs, ask if they want to lock it in or go back
-                CharGenHeader();
+                Menu.ScreenHeader(CharGenHeader);
                 foreach((Attribute a, int v) pair in pairs)
                 {
                     Console.WriteLine($"{pair.a.Name} - {pair.v}");
@@ -191,75 +174,9 @@ public static class CharGen
         }
         return rolls;
     }
-
-    // Input collector that lets the user select from a list of options, only returns when we have a valid choice
-    private static int HandleCharGenIndexChoice(int listCount)
+    // Delegate to pass to Menu.ScreenHeader(Action a)
+    public static void CharGenHeader()
     {
-        // Allow the player to select an option from a 1 indexed list
-        ConsoleKey keyInput;
-        int? selectedOption = null;
-        do
-        {
-            keyInput = Console.ReadKey(true).Key;
-
-            if (IsNumericKey(keyInput))
-            {
-                selectedOption = ConvertKeyToNumber(keyInput);
-            }
-        // We continue the loop while any of these conditions is satisfied.
-        } while (selectedOption is null || selectedOption < 1 || selectedOption > listCount);
-
-        // Correct the index so it's 0 indexed again and not an int? either
-        int selectedIndex = selectedOption.Value - 1;
-
-        return selectedIndex;
-    }
-
-    // Checks the passed ConsoleKey to see if it's a number key we can convert to an int
-    private static bool IsNumericKey(ConsoleKey key)
-    {
-        return  key >= ConsoleKey.D0 && key <= ConsoleKey.D9 ||
-                key >= ConsoleKey.NumPad0 && key <= ConsoleKey.NumPad9;
-    }
-
-    // Takes a ConsoleKey and returns an int from it, this can be a switch expression but it's honestly easier to understand this way
-    private static int? ConvertKeyToNumber(ConsoleKey key)
-    {
-        if (key >= ConsoleKey.D0 && key <= ConsoleKey.D9)
-            return key - ConsoleKey.D0;
-
-        // Converts number pad too! (even though I don't have one)
-        if (key >= ConsoleKey.NumPad0 && key <= ConsoleKey.NumPad9)
-            return key - ConsoleKey.NumPad0;
-
-        return null;
-    }
-
-    // Handler for collecting strings from the user, makes sure we don't get one that's Null or Empty.
-    private static string HandleCharGenInput(string prompt)
-    {
-        bool isSecondTry = false;
-
-        // Loop only ends when we have a valid string to return
-        while (true)
-        {
-            CharGenHeader();
-            Console.WriteLine(prompt);
-            // Only print the complaint if it's been set
-            if (isSecondTry)
-                Console.WriteLine("Enter something that isn't Null or Empty!");
-
-            // Collect user input and check for Null and Empty
-            string? userInput = Console.ReadLine();
-            if (string.IsNullOrEmpty(userInput))
-                isSecondTry = true;
-            else
-                return userInput;
-        }
-    }
-    private static void CharGenHeader()
-    {
-        Console.Clear();
         Console.WriteLine($"--- Character Creation ---\nCurrently Choosing: {CurrentStep}\n");
     }
 }
