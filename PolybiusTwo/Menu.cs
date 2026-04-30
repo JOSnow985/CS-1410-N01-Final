@@ -6,6 +6,28 @@ public static class Menu
     {
         
     }
+    public static void ClassList()
+    {
+        Console.Clear();
+        Console.WriteLine("Class List\n");
+        foreach(CharClass c in GameCore.CoreClasses)
+        {
+            Console.WriteLine($"{c.Name}- {c.HealthDie} - {c.Description}");
+        }
+        Console.WriteLine("Press any key to return to the main menu.");
+        Console.ReadKey(true);
+    }
+        public static void AttributeList()
+    {
+        Console.Clear();
+        Console.WriteLine("Attribute List\n");
+        foreach(Attribute attr in GameCore.CoreAttributes)
+        {
+            Console.WriteLine($"{attr.Name} - {attr.Description}");
+        }
+        Console.WriteLine("Press any key to return to the main menu.");
+        Console.ReadKey(true);
+    }
 
     // Input collector that lets the user select from a list of options, only returns when we have a valid choice
     public static int HandleIndexChoice(int listCount)

@@ -14,11 +14,10 @@ while (true)
             Menu.CharacterList();
             break;
         case '3':   // Class List
-            //
+            Menu.ClassList();
             break;
         case '4':   // Attribute List
-            Console.Clear();
-
+            Menu.AttributeList();
             break;
         case '5':   // Exit
             Console.Clear();
