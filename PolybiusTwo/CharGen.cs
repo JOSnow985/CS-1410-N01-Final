@@ -59,7 +59,6 @@ public static class CharGen
         // Loop only ends when we have a valid string to return
         while (true)
         {
-            Console.Clear();
             CharGenHeader();
             Console.WriteLine(prompt);
             // Only print the complaint if it's been set
@@ -74,5 +73,9 @@ public static class CharGen
                 return userInput;
         }
     }
-    public static void CharGenHeader() => Console.WriteLine($"Creating a new character, currently choosing: {CurrentStep}\n");
+    public static void CharGenHeader()
+    {
+        Console.Clear();
+        Console.WriteLine($"Creating a new character, currently choosing: {CurrentStep}\n");
+    }
 }
