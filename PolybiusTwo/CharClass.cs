@@ -9,13 +9,16 @@ public class CharClass  // May be a bad idea to name this "Class"
     // private List<Ability> _classAbilities;
 
     // -- Properties --
-    public string ClassName { get => _name; set => _name = value; }
+    public string Name { get => _name; set => _name = value; }
+    public string Description { get => _description; set => _description = value; }
+    public string HealthDie { get; set; }
 
     // --- Constructor ---
-    public CharClass(string name, string description)
+    public CharClass(string name, string description, string healthDie)
     {
         _name = name;
-        _description = description;
+        Description = description;
+        HealthDie = healthDie;
     }
 
     // --- Methods ---
