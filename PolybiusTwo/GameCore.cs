@@ -22,4 +22,5 @@ public static class GameCore
     }
     public static List<CharClass> CoreClasses => coreClasses;
     public static List<Character> LoadedCharacters => loadedCharacters;
+    public static void RefreshCharacterFiles() => loadedCharacters = FileLoader.LoadCharacterFiles();
 }
