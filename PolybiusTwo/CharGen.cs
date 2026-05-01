@@ -45,7 +45,7 @@ public static class CharGen
         if (keyInput == ConsoleKey.Y)
             return Menu.HandleStringInput("Please enter your character's description!", CharGenHeader);
         else
-            return "Yet another hero in the fight against communism.";
+            return "An amazingly awesome character!";
     }
     private static CharClass ChooseClass()
     {
