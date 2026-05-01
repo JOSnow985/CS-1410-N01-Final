@@ -4,13 +4,48 @@ public static class Menu
 {
     public static void CharacterList()
     {
-        Console.Clear();
-        Console.WriteLine("Character List\n");
-        foreach(Character c in GameCore.LoadedCharacters)
+        while (true)
         {
-            Console.WriteLine($"{c.Name} - {c.CharClass.Name}, {c.Level} - {c.Description}");
+            ScreenHeader(CharacterMenuHeader);
+
+            // Print the basic identifying info of each character
+            foreach (Character pc in GameCore.LoadedCharacters)
+                Console.WriteLine($"{pc.Name} - {pc.CharClass.Name}, {pc.Level}");
+
+            // Take user input and figure out what they're trying to do
+            string? userInput = Console.ReadLine();
+            if (!string.IsNullOrEmpty(userInput))
+            {
+                if(userInput.Equals("exit", StringComparison.InvariantCultureIgnoreCase))
+                    return;
+                else
+                    foreach(Character pc in GameCore.LoadedCharacters)
+                    {
+                        // If the user input matches a character name, call CharacterSheet() and break out of the loop
+                        if (userInput == pc.Name)
+                        {
+                            CharacterSheet(pc);
+                            break;
+                        }
+                    }
+            }
         }
-        Console.WriteLine("Press any key to return to the main menu.");
+    }
+    // Prints stats of passed character and waits on ReadKey()
+    private static void CharacterSheet(Character c)
+    {
+        ScreenHeader(CharacterSheetHeader);
+        Console.WriteLine($"{c.Name}, Level: {c.Level}");
+        Console.WriteLine($"\t{c.Description}");
+        Console.WriteLine($"\nClass: {c.CharClass.Name}");
+        Console.WriteLine($"\t{c.CharClass.Description}");
+        Console.WriteLine($"\n\tHit Die: {c.CharClass.HealthDie}");
+        Console.WriteLine($"\nAbility Scores:");
+        foreach ((Attribute attr, int score) in c.Attributes)
+        {
+            Console.WriteLine($"\t{attr.Name}: {score}");
+        }
+        Console.WriteLine("\n\nPress any key to return to the list when you're done.");
         Console.ReadKey(true);
     }
     public static void ClassList()
@@ -110,5 +145,14 @@ public static class Menu
     {
         Console.WriteLine("Welcome to Jaden's RPG Character Sheet Manager!\n");
         Console.WriteLine("[1] Create a Character\n[2] Character List\n[3] Class List\n[4] Attribute List\n[5] Exit");
+    }
+    public static void CharacterMenuHeader()
+    {
+        Console.WriteLine("--- Loaded Characters ---");
+        Console.WriteLine("Type in a character's name to inspect their sheet or \"exit\" to return!\n");
+    }
+    public static void CharacterSheetHeader()
+    {
+        Console.WriteLine("--- Character Sheet ---\n");
     }
 }
