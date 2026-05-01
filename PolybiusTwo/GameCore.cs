@@ -6,6 +6,7 @@ public static class GameCore
     // These are lists of core objects we'll reference from other places, loaded from files
     private static readonly List<Attribute> coreAttributes = FileLoader.LoadCoreAttributes();
     private static readonly List<CharClass> coreClasses = FileLoader.LoadCoreClasses();
+    private static List<Character> loadedCharacters = FileLoader.LoadCharacterFiles(); 
 
     // --- Properties ---
     public static List<Attribute> CoreAttributes => coreAttributes;
@@ -20,4 +21,5 @@ public static class GameCore
         }
     }
     public static List<CharClass> CoreClasses => coreClasses;
+    public static List<Character> LoadedCharacters => loadedCharacters;
 }
