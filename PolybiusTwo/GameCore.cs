@@ -9,8 +9,15 @@ public static class GameCore
 
     // --- Properties ---
     public static List<Attribute> CoreAttributes => coreAttributes;
-
+    public static List<string> AttributeIdentifiers
+    {
+        get
+        {
+            List<string> attributeIdentifiers = [];
+            foreach (Attribute attr in CoreAttributes)
+                attributeIdentifiers.Add(attr.Name);
+            return attributeIdentifiers;
+        }
+    }
     public static List<CharClass> CoreClasses => coreClasses;
-    // --- Constructor ---
-    // --- Methods ---
 }
