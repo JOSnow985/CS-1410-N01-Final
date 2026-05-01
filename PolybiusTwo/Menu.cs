@@ -4,7 +4,14 @@ public static class Menu
 {
     public static void CharacterList()
     {
-        
+        Console.Clear();
+        Console.WriteLine("Character List\n");
+        foreach(Character c in GameCore.LoadedCharacters)
+        {
+            Console.WriteLine($"{c.Name} - {c.CharClass.Name}, {c.Level} - {c.Description}");
+        }
+        Console.WriteLine("Press any key to return to the main menu.");
+        Console.ReadKey(true);
     }
     public static void ClassList()
     {
