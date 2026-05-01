@@ -21,7 +21,7 @@ while (true)
             break;
         case '5':   // Exit
             Console.Clear();
-            Console.WriteLine("Bye!");
+            Console.WriteLine("End of Line...");
             return;
         default:
             break;
