@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace PolybiusTwo;
+﻿namespace PolybiusTwo;
 
 public static class FileLoader
 {
