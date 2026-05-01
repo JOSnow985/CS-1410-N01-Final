@@ -57,5 +57,8 @@ public class Character
         // Must create this directory if it doesn't exist
         Directory.CreateDirectory(savepath);
         File.WriteAllLines(Path.Combine(savepath,$"{Name}.csv"), lines.ToArray());
+
+        // Refresh the loaded character files now that we've saved
+        GameCore.RefreshCharacterFiles();
     }
 }
