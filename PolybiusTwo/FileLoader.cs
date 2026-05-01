@@ -21,46 +21,6 @@ public static class FileLoader
         return list;
     }
 
-    // Loads all the core class files present in the core class folder
-    public static List<CharClass> LoadCoreClasses()
-    {
-        List<CharClass> classList = [];
-
-        // Build the path to the class folder
-        string currentDir = Directory.GetCurrentDirectory();
-        string coreClassFolder = "GameCore/CoreClasses";
-
-        // Get an array of the files in the class folder
-        string[] files = Directory.GetFiles(Path.Combine(currentDir, coreClassFolder));
-
-        // Create a class from every class file in the directory
-        foreach(string file in files)
-        {
-            string[] lines = LoadFile(file);
-
-            List<string[]> lineList = [];
-
-            foreach(string line in lines)
-                lineList.Add(line.Split(','));
-            
-            // Using query expressions to parse the lines from the file based on the first string, the identifier
-            var name =  from x in lineList
-                        where x[0] == "Name"        && x.Length > 1     // Make sure we're getting lines that aren't just an identifier
-                        select x;
-            var desc =  from x in lineList
-                        where x[0] == "Description" && x.Length > 1
-                        select x;
-            var hitD =  from x in lineList
-                        where x[0] == "HitDie"      && x.Length > 1
-                        select x;
-            
-            // Grab the first entry from the enumerables and use the second string in the array, the value
-            classList.Add(new(name.First()[1], desc.First()[1], hitD.First()[1]));
-        }
-
-        return classList;
-    }
-
     // Loads all Character Files found and reconstructs characters into a list
     public static List<Character> LoadCharacterFiles()
     {
@@ -86,11 +46,11 @@ public static class FileLoader
                 List<string> playerIdentifiers = ["Name", "Description", "CharClass", "Level"];
                 playerIdentifiers.AddRange(GameCore.AttributeIdentifiers);
 
-                // Use query expressions to match the identifiers we need to reconstruct the object we're loading
+                // Use query expressions to match the identifiers we need to reconstruct the character we're loading
                 Dictionary<string, string> playerValues = ProcessLines(lineList, playerIdentifiers);
 
                 // Parse Ability Scores from dictionary
-                List<(PolybiusTwo.Attribute, int)> loadedAbilityScores = LoadAbilityScores(playerValues);
+                List<(Attribute, int)> loadedAbilityScores = LoadAbilityScores(playerValues);
 
                 // Parse CharClass from dictionary or use a blank entry to indicate we couldn't find it
                 CharClass loadedClass = LoadCharClass(playerValues["CharClass"]) ?? new("CLASS NOT FOUND", "", "");
@@ -98,10 +58,43 @@ public static class FileLoader
                 // Parse Level from string to int, will be 0 if the parse fails
                 Int32.TryParse(playerValues["Level"], out int loadedLevel);
 
-                Character loadedChar = new(playerValues["Name"], playerValues["Description"], loadedClass, loadedAbilityScores, loadedLevel);
-                characterList.Add(loadedChar);
+                characterList.Add(new(playerValues["Name"], playerValues["Description"], loadedClass, loadedAbilityScores, loadedLevel));
             }
             return characterList;
+        }
+        // If the directory isn't found, just return an empty list
+        else
+            return [];
+    }
+
+    // Loads all core classes found and constructs a CharClass list
+    public static List<CharClass> LoadCoreClasses()
+    {
+        // Build the path to the class folder
+        string coreClassFolder = Path.Combine(Directory.GetCurrentDirectory(), "GameCore", "CoreClasses");
+
+        if (Directory.Exists(coreClassFolder))
+        {
+            // Get an array of the files in the class folder
+            string[] files = Directory.GetFiles(coreClassFolder);
+
+            // Create a class from every class file in the directory
+            List<CharClass> classList = [];
+            foreach (string file in files)
+            {
+                string[] lines = LoadFile(file);
+
+                List<string[]> lineList = [];
+
+                foreach (string line in lines)
+                    lineList.Add(line.Split(','));
+
+                Dictionary<string, string> classValues = ProcessLines(lineList, ["Name", "Description", "HitDie"]);
+
+                classList.Add(new(classValues["Name"], classValues["Description"], classValues["HitDie"]));
+            }
+
+            return classList;
         }
         // If the directory isn't found, just return an empty list
         else
@@ -166,9 +159,9 @@ public static class FileLoader
     public static (string key, string val) QueryListForString(List<string[]> list, string target)
     {
         // Only use the first entry found, files should only have one entry to find
-        return ((string, string))(from line in list
-                                  where line[0] == target && line.Length > 1
-                                  select (line[0], line[1])).FirstOrDefault((target, "KEY NOT FOUND IN FILE"));
+        return (from line in list
+                where line[0] == target && line.Length > 1
+                select (line[0], line[1])).FirstOrDefault((target, "KEY NOT FOUND IN FILE"));
     }
 
     // Loads the indicated file, returns an empty array if the file's missing
