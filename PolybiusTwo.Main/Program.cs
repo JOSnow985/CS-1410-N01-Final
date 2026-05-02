@@ -1,5 +1,7 @@
-﻿// Jaden Olvera, Final Project
+﻿// Jaden Olvera, Final Project, RPG Character Manager
 
+// Simple loop for the user to interact with the menus
+// all functionality is implemented in the classes
 while (true)
 {
     Console.Clear();
@@ -21,7 +23,7 @@ while (true)
             break;
         case '5':   // Exit
             Console.Clear();
-            Console.WriteLine("End of Line...");
+            Console.WriteLine("End of Line.");
             return;
         default:
             break;

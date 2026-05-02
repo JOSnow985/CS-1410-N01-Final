@@ -9,7 +9,6 @@ public class Character
     private CharClass _charClass;
     private int _level = 1;
     private List<(Attribute attribute, int value)> _attributes;
-    // private int _maxHealth => _attributes.Constitution;
     private int _maxStamina;
 
     // --- Properties ---
@@ -18,7 +17,6 @@ public class Character
     public CharClass CharClass { get => _charClass; set => _charClass = value; }
     public int Level { get => _level; set => _level = value; }
     public List<(Attribute attribute, int value)> Attributes { get => _attributes; set => _attributes = value; }
-    // public int MaxHealth { get => _maxHealth; set => _maxHealth = value; }
     public int MaxStamina { get => _maxStamina; set => _maxStamina = value; }
 
     // --- Constructor ---

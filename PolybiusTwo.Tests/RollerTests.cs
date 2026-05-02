@@ -2,12 +2,6 @@ namespace PolybiusTwo.Tests;
 
 public class RollerTests
 {
-    [SetUp]
-    public void Setup()
-    {
-        
-    }
-
     [Test]
     public void FourDropLow_SixCount()
     {
