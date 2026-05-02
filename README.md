@@ -40,7 +40,8 @@ The primary design strategy I used was CRC Cards but I did use a simple flowchar
 ### CRC Cards 
 From the creation of these CRC Cards, the roles and implementations evolved quite a bit. The core concepts of these remain in the code, but the Attribute Roller idea ended up simply being a component of the Character Creator class (implemented as CharGen). The classes also ended up being less interconnected than I expected, instead leaning more on the loaded game files and object members.
 
-image placeholder
+<img width="911" height="1137" alt="image" src="https://github.com/user-attachments/assets/61adda0c-0e0f-42a3-b81b-60986a81edee" />
+
 
 ## In Closing
 
