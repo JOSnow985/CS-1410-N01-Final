@@ -7,7 +7,10 @@ public static class FileLoader
     public static List<Attribute> LoadCoreAttributes()
     {
         List<Attribute> list = [];
-        string[] lines = LoadFile("GameCore/core_attributes.csv");
+
+        // Build the path to the attributes file
+        string attrFolder = Path.Combine(Directory.GetCurrentDirectory(), "GameCore", "core_attributes.csv");
+        string[] lines = LoadFile(attrFolder);
 
         // Split each line by ',', add the two parts to the list as a new Attribute object
         foreach(string line in lines)
